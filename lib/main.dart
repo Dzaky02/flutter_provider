@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'gender_provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,88 +11,114 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 20,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Gender Picker',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
+    return ChangeNotifierProvider<GenderProvider>(
+      create: (context) => GenderProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          body: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Consumer<GenderProvider>(
+                  builder: (context, genderProvider, _) => Text(
+                    'Gender Picker',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
+                      color: genderProvider.color,
+                    ),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 150,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/icon_male.png',
-                            height: 100,
-                          ),
-                          Text(
-                            'Male',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
+                SizedBox(
+                  height: 50,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Consumer<GenderProvider>(
+                        builder: (context, genderProvider, _) =>
+                            GestureDetector(
+                          onTap: () {
+                            genderProvider.isMale = true;
+                          },
+                          child: Container(
+                            height: 150,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: genderProvider.maleColor,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/icon_male.png',
+                                  height: 100,
+                                  color: genderProvider.maleColor,
+                                ),
+                                Text(
+                                  'Male',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                    color: genderProvider.maleColor,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 150,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black,
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/icon_female.png',
-                            height: 100,
-                          ),
-                          Text(
-                            'Female',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      child: Consumer<GenderProvider>(
+                        builder: (context, genderProvider, _) =>
+                            GestureDetector(
+                          onTap: () {
+                            genderProvider.isMale = false;
+                          },
+                          child: Container(
+                            height: 150,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: genderProvider.femaleColor,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/icon_female.png',
+                                  height: 100,
+                                  color: genderProvider.femaleColor,
+                                ),
+                                Text(
+                                  'Female',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                    color: genderProvider.femaleColor,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
